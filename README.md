@@ -1,20 +1,21 @@
 # port_scan
-1、外网端口扫描脚本
-1.1、脚本描述
+## 1、外网端口扫描脚本
+### 1.1、脚本描述
 作用：端口发现 + 服务识别 + 结果保存  
 路径：14.18.104.110://home/techao/port_scan.py
 开发语言：python3
-1.2、扫描逻辑
+### 1.2、扫描逻辑
 调用masscan进行端口发现
 利用python-nmap模块对发现的端口进行服务识别
 如果识别出http/https服务，则利用http/https请求获取详细的服务信息
 对所有发现的端口进行白名单过滤
 根据过滤结果保存为开放端口和新增开放端口两个文件
-1.3、具体模块说明
+### 1.3、具体模块说明
 该脚本由三个功能模块组成，分别是执行扫描任务的模块、多线程调用模块、执行保存模块；依次介绍：
-1.3.1、任务扫描模块
+#### 1.3.1、任务扫描模块
 类名：PortSacn
 包含方法：port_scan(ip)、nmap_scan(self, ip, ports)、url_request(num, ip, port, service_name)
+```
 class PortScan:
     def __init__(self):
         """
@@ -46,7 +47,9 @@ class PortScan:
         :param service_name:
         :return:
         """
-1.3.2、多线程调用模块
+ ```
+#### 1.3.2、多线程调用模块
+```
 class MulThreading(threading.Thread):
     def __init__(self, que):
         """
@@ -65,9 +68,11 @@ class MulThreading(threading.Thread):
             except Exception as e:
                 print(e)
                 pass
-1.3.3、执行\保存模块
+```
+#### 1.3.3、执行\保存模块
 类名：Execute
 包含方法：check_white_port(ip, port)、write_xls(info_list)、main(thread_count)
+```
 class Execute:
     def __init__(self, ip_file, white_ip_file):
         self.scan_info = []
@@ -92,19 +97,20 @@ class Execute:
         :param thread_count:
         :return:
         """
- 
+ ```
 
-2、邮件发送脚本
-2.1、脚本描述
+## 2、邮件发送脚本
+### 2.1、脚本描述
 作用：发送扫描结果
 配置文件路径： 14.18.104.110://home/techao/conf/config.py
 主程序路径：14.18.104.110://home/techao/send_mail.py
 开发语言：python3
-2.2、 处理逻辑
+### 2.2、 处理逻辑
 从配置文件中读取设置的发送邮箱等信息，发送到目标邮箱
-2.3、说明
+### 2.3、说明
 方法名和调用方式如下：
 config.py
+```
 # -*- coding: utf-8 -*-
 # clint
 # lintechoa@yingzi.com
@@ -120,8 +126,9 @@ class MailInfo:
     password = 'xxxxxx'
     # 接收邮箱
     toaddrs = ['lintechao@yingzi.com']
+```
 send_mail.py
-
+```
 # -*- coding: utf-8 -*-
 # clint
 # lintechoa@yingzi.com
@@ -148,8 +155,10 @@ class SendMail:
 if __name__ == '__main__':
     mail_info = MailInfo()
     SendMail(mail_info).send_mail()
-3、运行！
+```
+## 3、运行！
 设置定时任务执行运行程序，实例化部分如下
+```
 if __name__ == '__main__':
     start_time = datetime.datetime.now()
     ip_f = None
@@ -159,7 +168,8 @@ if __name__ == '__main__':
     SendMail(mail_info).send_mail()     # 发送邮件
     spend_time = (datetime.datetime.now() - start_time)
     print('程序共运行了：' + str(spend_time))
-4、注意事项（关注一下避免踩坑）
+```
+## 4、注意事项（关注一下避免踩坑）
 我们这个扫描脚本涉及到两个并发，一个是masscan工具自身的设计，一个是设计的多线程执行模块
 进行每个IP的端口发现时不调用多线程执行程序，而是利用os‘调用masscan工具，利用该工具自带的并发功能进行发现，每秒发送数据包自己设置；
 当ip数增加时，就有必要调用多线程模块提高执行效率了；
