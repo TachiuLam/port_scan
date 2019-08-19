@@ -171,6 +171,7 @@ class Execute:
         new_info.write(0, 0, 'ip地址', style)
         new_info.write(0, 1, '端口', style)
         new_info.write(0, 2, '服务信息', style)
+        new_row = 0     # 新sheet的行初始化
 
         for i, each_list in enumerate(info_list):
             all_info.write(i + 1, 0, each_list[0])
@@ -178,9 +179,10 @@ class Execute:
             all_info.write(i + 1, 2, each_list[2])
             # 如果没在白名单理，则是新增端口
             if not self.check_white_port(each_list[0], each_list[1]):
-                new_info.write(i + 1, 0, each_list[0])
-                new_info.write(i + 1, 1, each_list[1])
-                new_info.write(i + 1, 2, each_list[2])
+                new_info.write(new_row, 0, each_list[0])
+                new_info.write(new_row, 1, each_list[1])
+                new_info.write(new_row, 2, each_list[2])
+                new_row += 1
 
         wb.save('report.xls')
 
