@@ -177,3 +177,71 @@ if __name__ == '__main__':
 所以就需要注意两个值，一个是并发线程数（传参）；masscan每秒发包数，设置为固定。
 外网那台机器，单线程执行，masscan设置为每秒发送1000个数据包，一分钟完成全端口扫描和服务发现，而且基本准确率；
 但是。。。结合多线程并发运行，如果还设置每秒发送1000个数据包，假如你设置了100个线程，每秒发包理论上就是100*1000，带宽就撑不住，就会频繁丢包，速度是很快，但是误报率飙高。所以迁移的时候再自己慢慢测试调整这两个数值吧~
+
+
+# 一、脚本目录结构
+## 1.主目录
+```
+[root@master-yzjbz2152218414-1533899798118 portscanbat]# ll /home/techao/portscanbat
+ 
+total 88
+-rw-r--r-- 1 root root 11086 Dec 16 11:33 \
+drwxr-xr-x 3 root root  4096 Dec 16 11:33 conf		# 邮箱配置信息
+-rw-r--r-- 1 root root     0 Dec 16 11:33 __init__.py
+drwxr-xr-x 2 root root  4096 Dec 16 11:33 log
+-rw-r--r-- 1 root root     0 Dec 16 11:33 masscan.json
+-rw-r--r-- 1 root root 11408 Dec 16 11:33 portscan.py		# 扫描程序
+drwxr-xr-x 2 root root  4096 Dec 16 11:33 __pycache__
+-rw-r--r-- 1 root root 42496 Dec 16 11:33 reports.xls
+-rw-r--r-- 1 root root     0 Dec 16 11:33 scan_info.txt
+-rw-r--r-- 1 root root  1418 Dec 16 11:33 send_mail.py		# 邮件发送程序
+drwxr-xr-x 2 root root  4096 Dec 16 11:33 static 	# ip地址
+```
+## 2.IP地址文件
+```
+[root@master-yzjbz2152218414-1533899798118 portscanbat]# ll static/
+total 36
+-rw-r--r-- 1 root root   195 Dec 16 11:33 derek.txt		# 德里克IP地址
+-rw-r--r-- 1 root root  2140 Dec 16 11:33 ip.bat.txt	
+-rw-r--r-- 1 root root  2140 Dec 16 11:33 ip.txt		# 需要扫描的IP地址
+-rw-r--r-- 1 root root 17920 Dec 16 11:33 white.xls		# 白名单IP
+-rw-r--r-- 1 root root   551 Dec 16 11:33 yangxiang.txt # 扬翔IP地址
+```
+需要添加/修改IP地址，直接修改对应txt文件即可
+
+## 3.邮箱信息配置
+```
+[root@master-yzjbz2152218414-1533899798118 portscanbat]# vim conf/config.py 
+
+
+class MailInfo:
+    # 发送邮箱
+    # from_addr = 'pentest@126.com'
+    from_addr = 'scanning@yingzi.com'
+    # 邮箱授权码
+    #password = 'Hundun321abc'
+    password = 'B68PvUZ4mRY'
+    # 接收邮箱
+    #toaddrs = ['huangzehong@yingzi.com']
+    # toaddrs = ['lintechao@yingzi.com']
+    toaddrs = ['lintechao@yingzi.com','huangzehong@yingzi.com','yuxiaotian@yingzi.com']
+    # 邮件内容
+    content = 'The scan for port has finshed.for details, see attached'
+    # 邮件标题
+    now_time = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
+    title = '外网端口扫描结果  ' + str(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    # 附件路径
+    filepath = 'reports.xls'
+```                                                                                                                                                                                                                                                                                                        
+# 二、脚本使用
+目前利用crontab，在每天凌晨三点和晚上九点执行，相关配置在上述文件中进行配置
+
+## 1.定时脚本
+```
+crontab -e
+ 
+0 21 * * * cd /home/techao/portscan_v2/; python3 test3.py &>> ./log/all.log
+0 3 * * * cd /home/techao/portscan_v2/; python3 test3.py &>> ./log/all.log
+```
+
+
