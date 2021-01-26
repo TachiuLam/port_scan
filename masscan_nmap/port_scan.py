@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # clint
-# lintechoa@yingzi.com
 # 2019/8/14 14:33
 
 import nmap
