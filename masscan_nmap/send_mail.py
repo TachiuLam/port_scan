@@ -1,5 +1,4 @@
-int
-# lintechoa@yingzi.com
+# tachiulam
 # 2019/8/16 14:48
 
 import smtplib
