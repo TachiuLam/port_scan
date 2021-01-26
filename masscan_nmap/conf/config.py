@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # clint
-# lintechoa@yingzi.com
 # 2019/8/16 14:53
 
 import time
@@ -8,12 +7,11 @@ import time
 
 class MailInfo:
     # 发送邮箱
-    from_addr = 'pentest@126.com'
+    from_addr = 'test@126.com'
     # 邮箱授权码
-    password = 'Hundun321abc'
+    password = '123'
     # 接收邮箱
-    # toaddrs = ['huangzehong@yingzi.com']
-    toaddrs = ['lintechao@yingzi.com']
+    toaddrs = ['test@126.com']
     # 邮件内容
     content = 'The scan for port has finshed.for details, see attached'
     # 邮件标题
