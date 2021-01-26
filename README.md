@@ -2,7 +2,6 @@
 ## 1、外网端口扫描脚本
 ### 1.1、脚本描述
 作用：端口发现 + 服务识别 + 结果保存  
-路径：14.18.104.110://home/techao/port_scan.py
 开发语言：python3
 ### 1.2、扫描逻辑
 调用masscan进行端口发现
@@ -102,8 +101,8 @@ class Execute:
 ## 2、邮件发送脚本
 ### 2.1、脚本描述
 作用：发送扫描结果
-配置文件路径： 14.18.104.110://home/techao/conf/config.py
-主程序路径：14.18.104.110://home/techao/send_mail.py
+配置文件路径： ./conf/config.py
+主程序路径：./send_mail.py
 开发语言：python3
 ### 2.2、 处理逻辑
 从配置文件中读取设置的发送邮箱等信息，发送到目标邮箱
@@ -113,7 +112,6 @@ config.py
 ```
 # -*- coding: utf-8 -*-
 # clint
-# lintechoa@yingzi.com
 # 2019/8/16 14:53
  
 import time
@@ -125,13 +123,12 @@ class MailInfo:
     # 邮箱授权码
     password = 'xxxxxx'
     # 接收邮箱
-    toaddrs = ['lintechao@yingzi.com']
+    toaddrs = ['']
 ```
 send_mail.py
 ```
 # -*- coding: utf-8 -*-
 # clint
-# lintechoa@yingzi.com
 # 2019/8/16 14:48
 # 主机名是中文可发送不了，会报错
  
@@ -182,7 +179,7 @@ if __name__ == '__main__':
 ## 一、脚本目录结构
 ### 1.主目录
 ```
-[root@master-yzjbz2152218414-1533899798118 portscanbat]# ll /home/techao/portscanbat
+[root@2152218414-1533899798118 portscanbat]# ll /home/techao/portscanbat
  
 total 88
 -rw-r--r-- 1 root root 11086 Dec 16 11:33 \
@@ -199,7 +196,7 @@ drwxr-xr-x 2 root root  4096 Dec 16 11:33 static 	# ip地址
 ```
 ### 2.IP地址文件
 ```
-[root@master-yzjbz2152218414-1533899798118 portscanbat]# ll static/
+[root@2152218414-1533899798118 portscanbat]# ll static/
 total 36
 -rw-r--r-- 1 root root   195 Dec 16 11:33 derek.txt		# 德里克IP地址
 -rw-r--r-- 1 root root  2140 Dec 16 11:33 ip.bat.txt	
@@ -211,20 +208,20 @@ total 36
 
 ### 3.邮箱信息配置
 ```
-[root@master-yzjbz2152218414-1533899798118 portscanbat]# vim conf/config.py 
+[root@2152218414-1533899798118 portscanbat]# vim conf/config.py 
 
 
 class MailInfo:
     # 发送邮箱
-    # from_addr = 'pentest@126.com'
-    from_addr = 'scanning@yingzi.com'
+    # from_addr = 'test@126.com'
+    from_addr = 'test@126.com'
     # 邮箱授权码
-    #password = 'Hundun321abc'
-    password = 'B68PvUZ4mRY'
+    #password = '123'
+    password = '123'
     # 接收邮箱
-    #toaddrs = ['huangzehong@yingzi.com']
-    # toaddrs = ['lintechao@yingzi.com']
-    toaddrs = ['lintechao@yingzi.com','huangzehong@yingzi.com','yuxiaotian@yingzi.com']
+    #toaddrs = ['test@126.com']
+    # toaddrs = ['test@126.com']
+    toaddrs = ['test@126.com','test@126.com']
     # 邮件内容
     content = 'The scan for port has finshed.for details, see attached'
     # 邮件标题
